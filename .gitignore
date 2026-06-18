@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Generated outputs
+outputs/
+
+# Large datasets
+data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dataset
+bpRNA Dataset/
