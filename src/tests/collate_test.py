@@ -1,7 +1,7 @@
 from torch.utils.data import DataLoader
-from src.dataset import BPRNADataset
-from src.split_dataset import split_dataset
-from src.collate import rna_collate_fn
+from data.dataset import BPRNADataset
+from data.split_dataset import split_dataset
+from data.collate import rna_collate_fn
 
 dataset = BPRNADataset(
     fasta_dir="./bpRNA Dataset/bpRNA_1m/fastaFiles",
