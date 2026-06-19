@@ -1,4 +1,4 @@
-from src.dataset import BPRNADataset
+from src.data.dataset import BPRNADataset
 import matplotlib.pyplot as plt
 
 dataset = BPRNADataset(
