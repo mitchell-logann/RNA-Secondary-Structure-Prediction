@@ -6,7 +6,7 @@ import argparse
 from sklearn.metrics import precision_score, recall_score, f1_score
 from pathlib import Path
 
-from src.dataset import BPRNADataset, dotbracketToContact
+from data.dataset import BPRNADataset, dotbracketToContact
 
 def flattenContactMap(contact_map):
     return contact_map.flatten().cpu().numpy()
