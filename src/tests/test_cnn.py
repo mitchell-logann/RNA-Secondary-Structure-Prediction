@@ -5,6 +5,7 @@ from src.models.cnn_contact import CNNContactPredictor
 from src.data.dataset import BPRNADataset
 from src.data.collate import rna_collate_fn
 from src.data.split_dataset import split_dataset
+from src.losses.contact_loss import maskedBCELoss
 
 def main():
     dataset = BPRNADataset(
@@ -25,10 +26,16 @@ def main():
     model = CNNContactPredictor()
     batch = next(iter(train_loader))
     sequence = batch["sequence"]
+    targets = batch["contact_map"]
+    mask = batch["mask"]
     logits = model(sequence)
+    loss = maskedBCELoss(logits, targets, mask)
     
     print("Sequence shape:", sequence.shape)
     print("Output shape:", logits.shape)
+    print("Target shape:", targets.shape)
+    print("Mask Shape:", mask.shape)
+    print("Loss:", loss.item())
     
 if __name__ == "__main__":
     main()
