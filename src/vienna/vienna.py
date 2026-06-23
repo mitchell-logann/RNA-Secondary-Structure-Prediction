@@ -3,22 +3,11 @@ import pandas as pd
 import time
 import argparse
 
-from sklearn.metrics import precision_score, recall_score, f1_score
 from pathlib import Path
 
 from data.dataset import BPRNADataset, dotbracketToContact
+from evaluation.metrics import *
 
-def flattenContactMap(contact_map):
-    return contact_map.flatten().cpu().numpy()
-
-def evaluateContactMaps(true, pred):
-    y_true = flattenContactMap(true)
-    y_pred = flattenContactMap(pred)
-    
-    precision = precision_score(y_true, y_pred)
-    recall = recall_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred)
-    return precision, recall, f1
 
 def runVienna(dataset, numSamples):
     
