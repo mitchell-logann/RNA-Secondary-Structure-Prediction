@@ -7,6 +7,7 @@ from src.data.split_dataset import split_dataset
 from src.data.collate import rna_collate_fn
 from src.models.cnn_contact import CNNContactPredictor
 from src.losses.contact_loss import maskedBCELoss
+from src.evaluation.evaluate import evaluateModel
 
 from pathlib import Path
 
@@ -86,6 +87,12 @@ def main():
         shuffle=False,
         collate_fn = rna_collate_fn
     )
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size = args.batch_size,
+        shuffle = False,
+        collate_fn = rna_collate_fn
+    )
     
     model = CNNContactPredictor(embed_dim=32,hidden_dim=64).to(device)
     
@@ -104,6 +111,13 @@ def main():
             best_val_loss = val_loss
             torch.save(model.state_dict(), "outputs/CNN Outputs/best_cnn.pt")
             print("Saved best model.")
+            
+    model.load_state_dict(
+        torch.load("outputs/CNN Outputs/best_cnn.pt", map_location=device)
+    )
+    
+    results = evaluateModel(model, test_loader, device)
+    print(results)
         
 if __name__ == "__main__":
     main()

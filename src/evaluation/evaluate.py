@@ -13,12 +13,18 @@ def evaluateModel(model, test_loader, device):
     for batch in test_loader:
         sequence = batch["sequence"].to(device)
         targets = batch["contact_map"].to(device)
+        mask = batch["mask"].to(device)
         logits = model(sequence)
         
         predictions = logitsToContacts(logits)
         
         for i in range(sequence.size(0)):
-            precision, recall, f1 = evaluateContactMaps(targets[i], predictions[i])
+            L = mask[i].sum().item()
+            
+            true = targets[i, :L, :L]
+            pred = predictions[i, :L, :L]
+            
+            precision, recall, f1 = evaluateContactMaps(true, pred)
             
             precision_scores.append(precision)
             recall_scores.append(recall)
