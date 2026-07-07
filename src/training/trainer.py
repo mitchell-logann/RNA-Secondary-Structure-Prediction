@@ -16,9 +16,9 @@ def train(model, train_loader, optimizer, device):
         targets = batch["contact_map"].to(device)
         mask = batch["mask"].to(device)
         
-        print("sequence min:", sequence.min().item())
-        print("sequence max:", sequence.max().item())
-        print("sequence shape:", sequence.shape)
+        # print("sequence min:", sequence.min().item())
+        # print("sequence max:", sequence.max().item())
+        # print("sequence shape:", sequence.shape)
         
         logits = model(sequence)
         loss = maskedBCELoss(logits, targets, mask)
