@@ -1,6 +1,7 @@
 import torch
 import time
 import pandas as pd
+import json
 from pathlib import Path
 
 from src.losses.contact_loss import maskedBCELoss
@@ -48,10 +49,18 @@ def validate(model, val_loader, device):
         
     return total_loss / len(val_loader)
 
-def trainModel(model, train_loader, val_loader, test_loader, optimizer, device, output_dir, epochs, checkpoint_name, model_name):
+def trainModel(model, train_loader, val_loader, test_loader, optimizer, device, output_dir, epochs, checkpoint_name, model_name, config=None):
     best_val_loss = float("inf")
     output_dir.mkdir(parents=True, exist_ok=True) 
     checkpoint_path = output_dir / checkpoint_name
+ 
+    if config is not None:
+        config_path = output_dir / "config.json"
+
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+
+    print(f"Saved configuration to {config_path}")
  
     experiment_start = time.perf_counter()
     history = []

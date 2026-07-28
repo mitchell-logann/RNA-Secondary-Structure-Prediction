@@ -1,16 +1,14 @@
 import torch
 from torch.utils.data import DataLoader
 import argparse
-import time
 import pandas as pd
 
 from src.data.dataset import BPRNADataset
 from src.data.split_dataset import split_dataset
 from src.data.collate import rna_collate_fn
 from src.models.bilstm_contact import BiLSTMContact
-from src.losses.contact_loss import maskedBCELoss
-from src.evaluation.evaluate import evaluateModel
 from src.training.trainer import trainModel
+from datetime import datetime
 
 from pathlib import Path
 
@@ -26,6 +24,33 @@ def main():
     )
     parser.add_argument(
         "--epochs", type=int, default = 8, help="Number of iterations the model will run through."
+    )
+    parser.add_argument(
+        "--lr", type=float, default=1e-3, help="Learning rate for the optimizer."
+    )
+    parser.add_argument(
+        "--optimizer", type=str, default="Adam", choices=["Adam", "AdamW", "SGD"], help="Optimizer used for training."
+    )
+    parser.add_argument(
+        "--loss_function", type=str, default="Masked BCE", choices=["Masked BCE"], help="Loss function used during training."
+    )
+    parser.add_argument(
+        "--vocab_size", type=int, default=5, help="Vocabulary size for the RNA embedding layer."
+    )
+    parser.add_argument(
+        "--padding_idx", type=int, default=4, help="Padding token index."
+    )
+    parser.add_argument(
+        "--embed_dim", type=int, default=32, help="Embedding dimension."
+    )
+    parser.add_argument(
+        "--hidden_dim", type=int, default=64, help="Hidden dimension for the model."
+    )
+    parser.add_argument(
+        "--num_layers", type=int, default=2, help="Number of encoder layers."
+    )
+    parser.add_argument(
+        "--dropout", type=float, default=0.2, help="Dropout probability."
     )
     
     args = parser.parse_args()
@@ -60,9 +85,48 @@ def main():
         collate_fn = rna_collate_fn
     )
     
-    model = BiLSTMContact(embed_dim=16, hidden_dim=32, num_layers=2, dropout=0.2).to(device)
+    model = BiLSTMContact(embed_dim=args.embed_dim, hidden_dim=args.hidden_dim, num_layers=args.num_layers, dropout=args.dropout).to(device)
     
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3) 
+    if args.optimizer == "Adam":
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+
+    elif args.optimizer == "AdamW":
+        optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
+
+    elif args.optimizer == "SGD":
+        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9) 
+    
+    run_id = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    
+    config = {
+        "model_name": "BiLSTM",
+        "dataset": "bpRNA_1m",
+        "split_seed": 42,
+        "train_ratio": 0.6,
+        "val_ratio": 0.2,
+        "test_ratio": 0.2,
+        "max_len": args.max_len,
+        "batch_size": args.batch_size,
+        "epochs": args.epochs,
+        "learning_rate": args.lr,
+        "optimizer": args.optimizer,
+        "loss_function": "Masked BCE",
+        "vocab_size": 5,
+        "padding_idx": 4,
+        "embed_dim": args.embed_dim,
+        "hidden_dim": args.hidden_dim,
+        "num_layers": args.num_layers,
+        "dropout": args.dropout,
+        "device": str(device),
+        "dataset_size": len(dataset),
+        "train_size": len(train_dataset),
+        "val_size": len(val_dataset),
+        "test_size": len(test_dataset),
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat(timespec="seconds")
+    }
+    
+    output_dir = Path("outputs") / "BiLSTM Outputs" / run_id
     
     trainModel(
         model=model,
@@ -71,10 +135,11 @@ def main():
         test_loader=test_loader,
         optimizer=optimizer,
         device=device,
-        output_dir=Path("outputs/BiLSTM Outputs"),
+        output_dir=output_dir,
         epochs=args.epochs,
         checkpoint_name="best_bilstm.pt",
-        model_name="BiLSTM"
+        model_name="BiLSTM",
+        config=config
     )
         
         
