@@ -5,7 +5,7 @@ class TransformerContactPredictor(nn.Module):
     def __init__(self, vocab_size=5, embed_dim=64, hidden_dim=128, num_heads=4, num_layers=2, dropout=0.1, max_len=1024, padding_idx=4):
         super().__init__()
         
-        self.embedding = nn.Embedding(vocab_size,embed_dim,padding_idx=4)
+        self.embedding = nn.Embedding(vocab_size,embed_dim,padding_idx)
         self.pos_embedding = nn.Embedding(max_len, embed_dim)
         
         encoder_layer = nn.TransformerEncoderLayer(

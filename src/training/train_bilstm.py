@@ -85,7 +85,13 @@ def main():
         collate_fn = rna_collate_fn
     )
     
-    model = BiLSTMContact(embed_dim=args.embed_dim, hidden_dim=args.hidden_dim, num_layers=args.num_layers, dropout=args.dropout).to(device)
+    model = BiLSTMContact(
+        embed_dim=args.embed_dim, 
+        hidden_dim=args.hidden_dim, 
+        num_layers=args.num_layers, 
+        dropout=args.dropout, 
+        padding_idx=args.padding_idx
+    ).to(device)
     
     if args.optimizer == "Adam":
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)

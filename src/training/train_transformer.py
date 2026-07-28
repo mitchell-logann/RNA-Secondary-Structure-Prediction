@@ -89,7 +89,16 @@ def main():
         collate_fn = rna_collate_fn
     )
     
-    model = TransformerContactPredictor(embed_dim=args.embed_dim,hidden_dim=args.hidden_dim).to(device)
+    model = TransformerContactPredictor(
+        vocab_size=args.vocab_size, 
+        embed_dim=args.embed_dim, 
+        hidden_dim=args.hidden_dim,
+        num_heads=args.num_heads,
+        num_layers=args.num_layers,
+        dropout=args.dropout,
+        max_len=args.max_len or 512,
+        padding_idx=args.padding_idx
+    ).to(device)
     
     if args.optimizer == "Adam":
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)

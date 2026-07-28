@@ -86,7 +86,12 @@ def main():
         collate_fn = rna_collate_fn
     )
     
-    model = CNNContactPredictor(embed_dim=args.embed_dim,hidden_dim=args.hidden_dim).to(device)
+    model = CNNContactPredictor(
+        vocab_size=args.vocab_size,
+        embed_dim=args.embed_dim,
+        hidden_dim=args.hidden_dim,
+        padding_idx=args.padding_idx
+    ).to(device)
     
     if args.optimizer == "Adam":
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
@@ -112,8 +117,8 @@ def main():
         "learning_rate": args.lr,
         "optimizer": args.optimizer,
         "loss_function": "Masked BCE",
-        "vocab_size": 5,
-        "padding_idx": 4,
+        "vocab_size": args.vocab_size,
+        "padding_idx": args.padding_idx,
         "embed_dim": args.embed_dim,
         "hidden_dim": args.hidden_dim,
         "num_layers": args.num_layers,

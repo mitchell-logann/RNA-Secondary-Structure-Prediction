@@ -5,7 +5,7 @@ class BiLSTMContact(nn.Module):
     def __init__(self, vocab_size=5, embed_dim=64, hidden_dim=128, num_layers=2, dropout=0.2, padding_idx=4):
         super().__init__()
         
-        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=padding_idx)
+        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx)
         self.encoder = nn.LSTM(input_size=embed_dim, hidden_size=hidden_dim, num_layers=num_layers, batch_first=True, bidirectional=True, dropout=dropout if num_layers > 1 else 0.0)
         
         lstm_dim = hidden_dim * 2
