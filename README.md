@@ -17,8 +17,9 @@ Develop and evaluate machine learning models for RNA secondary structure predict
 - ViennaRNA baseline evaluation
 - Evaluation metrics (Precision, Recall, F1)
 - Visualization Pipeline
+- Models all working and ready for final runs
 
-## Planned Models
+## Models
 
 - ViennaRNA
 - CNN
@@ -35,3 +36,38 @@ Python 3.11
 Pytorch
 ViennaRNA
 Biopython
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/mitchell-logann/RNA-Secondary-Structure-Prediction.git
+cd RNA-Secondary-Structure-Prediction
+```
+
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it:
+
+Windows:
+
+```powershell
+venv\Scripts\activate
+```
+
+Linux/macOS:
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
