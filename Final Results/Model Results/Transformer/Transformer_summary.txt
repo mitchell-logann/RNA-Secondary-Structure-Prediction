@@ -1,0 +1,17 @@
+Transformer Contact Map Predictor Run Summary
+========================================
+
+Number of Epochs Ran: 20
+Total Runtime (sec): 5265.49
+Average Runtime per Epoch (sec): 263.2747
+
+Best Validation Loss: 0.0107
+
+Average Validation Precision: 0.4812
+Average Validation Recall:    0.4527
+Average Validation F1:        0.4577
+Final Test Metrics From Best Checkpoint
+----------------------------------------
+Test Precision:    0.5047
+Test Recall:       0.4894
+Test F1:           0.4928

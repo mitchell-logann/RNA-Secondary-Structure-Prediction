@@ -1,0 +1,17 @@
+CNN Contact Map Predictor Run Summary
+========================================
+
+Number of Epochs Ran: 20
+Total Runtime (sec): 5016.82
+Average Runtime per Epoch (sec): 250.8410
+
+Best Validation Loss: 0.0067
+
+Average Validation Precision: 0.7712
+Average Validation Recall:    0.6018
+Average Validation F1:        0.6374
+Final Test Metrics From Best Checkpoint
+----------------------------------------
+Test Precision:    0.8006
+Test Recall:       0.6347
+Test F1:           0.6723
