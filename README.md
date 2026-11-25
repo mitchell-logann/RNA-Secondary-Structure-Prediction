@@ -46,7 +46,7 @@ Additionally, a graphics card configuration with 24 Gigabytes of VRAM was used f
 
 ## Results
 
-A more detailed results section will be stored in the "Results" folder in the directory. Our findings are as follows:
+A more detailed results section will be stored in the "Final Results" folder in the directory. Our findings are as follows:
 - Transformer: 0.5047 Precision, 0.4894 Recall, 0.4928 F1
 - CNN: 0.8006 Precision, 0.6347 Recall, 0.6723 F1
 - **BiLSTM: 0.8472 Precision, 0.7356 Recall, 0.7636 F1**
