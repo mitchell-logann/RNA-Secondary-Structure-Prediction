@@ -10,15 +10,6 @@ RNA secondary structure plays a critical role in determining RNA function, yet p
 
 Develop and evaluate machine learning models for RNA secondary structure prediction using contact map prediction.
 
-## Current Progress
-
-- Dataset loader implemented
-- Contact map generation from dot-bracket notation
-- ViennaRNA baseline evaluation
-- Evaluation metrics (Precision, Recall, F1)
-- Visualization Pipeline
-- Models all working and ready for final runs
-
 ## Models
 
 - ViennaRNA
@@ -37,37 +28,27 @@ Pytorch
 ViennaRNA
 Biopython
 
-## Installation
+## Methodology
 
-Clone the repository:
+Our training methodology was as followed:
+- 60/20/20 Train/Val/Test split
+- 768 nucleotide max sequence length
+- 8 batch size
+- 20 epochs
+- Adam optimizer
+- 0.001 learning rate
+- Masked Binary Cross-Entropy loss
 
-```bash
-git clone https://github.com/mitchell-logann/RNA-Secondary-Structure-Prediction.git
-cd RNA-Secondary-Structure-Prediction
-```
+For evaluation, precision, recall, and F1 scores were used
 
-Create a virtual environment:
+Additionally, a graphics card configuration with 24 Gigabytes of VRAM was used for training.
 
-```bash
-python -m venv venv
-```
 
-Activate it:
+## Results
 
-Windows:
+A more detailed results section will be stored in the "Results" folder in the directory. Our findings are as follows:
+- Transformer: 0.5047 Precision, 0.4894 Recall, 0.4928 F1
+- CNN: 0.8006 Precision, 0.6347 Recall, 0.6723 F1
+- **BiLSTM: 0.8472 Precision, 0.7356 Recall, 0.7636 F1**
 
-```powershell
-venv\Scripts\activate
-```
-
-Linux/macOS:
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
+We found that given our configuration, the BiLSTM model performed the strongest. This suggests that this architecture might be the strongest in this application, given the current configuration. 
